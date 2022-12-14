@@ -42,12 +42,14 @@ export default {
     methods: {
         async userRegister() {
             try {
-                let response = await this.$auth.loginWith('local', { data: this.login })
-                console.log(response)
-            } catch (err) {
-                console.log(err)
+                
+            } catch (error) {
+                console.log(error)
             }
-        }
-    }
-}
+
+            },
+            
+        },
+    },
+
 </script>
