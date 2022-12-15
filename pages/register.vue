@@ -7,7 +7,7 @@
         <p class="mt-4 text-base leading-7 text-center mb-[50px] text-grey">
             Manage your employees to achieve <br> a bigger goals for your company
         </p>
-        <form class="w-full card" @click.prevent="userRegister">
+        <form class="w-full card" @submit.prevent="userRegister">
             <div class="form-group">
                 <label for="" class="text-grey">Name</label>
                 <input type="text" class="input-field" v-model="register.name">
@@ -36,20 +36,33 @@ export default {
                 name: '',
                 email: '',
                 password: '',   
-            }
+            },
         }
     },
     methods: {
         async userRegister() {
             try {
-                
-            } catch (error) {
-                console.log(error)
+              // Send Registration Data to Server
+              let response = await this.$axios.post('/register', this.register)
+              
+              // If Successful, Login User
+              try {
+             let login = await this.$auth.loginWith('local', {
+                data: {
+                    email: this.register.email,
+                    password: this.register.password,
+                },
+            })
+                console.log(login)
+            }   catch (err) {
+                console.log(err)
             }
 
+                console.log(response)
+            }   catch (error) {
+                console.log(error)
+            }
             },
-            
         },
-    },
-
+    }
 </script>
