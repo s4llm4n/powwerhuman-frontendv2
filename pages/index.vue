@@ -4,13 +4,13 @@
         <form class="w-full card">
             <div class="form-group">
                 <label for="" class="text-grey">Companies</label>
-                <select 
+                <select v-if="companies.data"
                     v-model="selectedCompany" 
                     name="companies" 
                     id="" 
                     class="apperance-none input-field form-icon-chevron_down"
                 >
-                    <option value="" v-for="company in companies.data.result.data">
+                    <option :value="company.id" v-for="company in companies.data.result.data">
                         {{ company.name }}
                     </option>
                 </select>
