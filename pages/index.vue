@@ -4,8 +4,15 @@
         <form class="w-full card">
             <div class="form-group">
                 <label for="" class="text-grey">Companies</label>
-                <select name="" id="" class="apperance-none input-field form-icon-chevron_down">
-                    <option value="" selected>Company Name</option>
+                <select 
+                    v-model="selectedCompany" 
+                    name="companies" 
+                    id="" 
+                    class="apperance-none input-field form-icon-chevron_down"
+                >
+                    <option value="" v-for="company in companies.data.result.data">
+                        {{ company.name }}
+                    </option>
                 </select>
             </div>
             <a href="/companies/1" class="w-full btn btn-primary mt-[14px]">
@@ -16,5 +23,16 @@
 </template>
 
 <script>
-export default {}
+    export default {
+    middleware: 'auth',
+    data() {
+        return {
+            companies: [],
+            selectedCompany: '',
+        }
+    },
+    async fetch() {
+        this.companies = await this.$axios.get('/company')
+    }
+}
 </script>
