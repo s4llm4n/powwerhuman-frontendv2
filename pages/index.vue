@@ -1,10 +1,11 @@
 <template>
     <section class="py-[200px] flex flex-col items-center justify-center px-4">
         <div class="text-[32px] font-semibold text-dark mb-4">Select Companies</div>
-        <form class="w-full card">
+        <div class="w-full card">
             <div class="form-group">
                 <label for="" class="text-grey">Companies</label>
-                <select v-if="companies.data"
+                <p v-if="$fetchState.pending">Fetching companies...</p>
+                <select v-else
                     v-model="selectedCompany" 
                     name="companies" 
                     id="" 
@@ -15,10 +16,10 @@
                     </option>
                 </select>
             </div>
-            <a href="/companies/1" class="w-full btn btn-primary mt-[14px]">
+            <button @click="openCompany()" class="w-full btn btn-primary mt-[14px]">
                 Continue
-            </a>
-        </form>
+            </button>
+        </div>
     </section>
 </template>
 
@@ -32,7 +33,17 @@
         }
     },
     async fetch() {
-        this.companies = await this.$axios.get('/company')
+        this.companies = await this.$axios.get('/company?limit=100')
+    },
+    methods: {
+        openCompany() {
+            this.$router.push({
+                name: 'companies-id',
+                params: {
+                    id: this.selectedCompany,
+                },
+            })
+        },
     }
 }
 </script>
